@@ -1,0 +1,16 @@
+{
+  "name": "luis-portfolio",
+  "version": "1.0.0",
+  "private": true,
+  "description": "luislopezcreates.com on Cloudflare Workers",
+  "scripts": {
+    "login": "wrangler login",
+    "secret": "wrangler secret put ADMIN_TOKEN",
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "check": "wrangler deploy --dry-run"
+  },
+  "devDependencies": {
+    "wrangler": "^4"
+  }
+}
