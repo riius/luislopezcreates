@@ -147,7 +147,7 @@ intro:"I'm Luis, a motion designer and interactive animator who makes pixels mov
 paras:["With 10+ years in digital design, I've spent my time bringing ideas to life through motion, interactive experiences, animated ads, and digital campaigns. My toolkit includes Adobe Creative Suite, Figma, Rive, and a healthy disregard for how many layers one project actually needs.","When I'm not moving pixels around, I'm probably chasing a new creative idea, experimenting with something I probably didn't need to learn, or opening another browser tab I'll definitely get back to later."]
 };
 /* ---- EDIT RESUME HERE ---- */
-const RESUME={
+const RESUME={file:"assets/14a2d7528fb5.pdf",
 role:"Digital Designer / Motion",
 contact:[["phone","626 780 1244","tel:6267801244"],["mail","rayflect5@gmail.com","mailto:rayflect5@gmail.com"],["web","riius.portfoliobox.net","https://riius.portfoliobox.net"],["linkedin","linkedin.com/in/rayflectx","https://linkedin.com/in/rayflectx"]],
 summary:"Experienced Digital Motion Designer with over 10 years in digital media design, specializing in Adobe Creative Suite (Illustrator, Photoshop, Animate, After Effects, and Figma ). Proven expertise in technical graphic design, schematic creation, and production file preparation. Strong knowledge of typography, color theory, and layout design.",
@@ -162,7 +162,7 @@ edu:["BA in Media Arts and Animation - Art Institute","Continued Education - Ude
 lang:"Spanish - Fluently | English - Fluently"
 };
 function renderAbout(){const R=RESUME,hd=t=>`<h3 class="rs-h">${t}</h3>`;
-const resumeHTML=`<section class="rs"><div class="rs-top"><div><h2>Resume</h2><p class="role">${R.role}</p></div><div class="rs-contact">${R.contact.map(c=>`<div><span>${c[0]}</span><a href="${c[2]}" ${c[2].startsWith('http')?'target="_blank" rel="noopener"':''}>${c[1]}</a></div>`).join('')}</div></div>
+const resumeHTML=`<section class="rs"><div class="rs-top"><div><div class="rs-title"><h2>Resume</h2>${R.file?`<a class="btn-dl" href="${R.file}" download="Luis_Lopez_Resume_2026.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download resume</a>`:''}</div><p class="role">${R.role}</p></div><div class="rs-contact">${R.contact.map(c=>`<div><span>${c[0]}</span><a href="${c[2]}" ${c[2].startsWith('http')?'target="_blank" rel="noopener"':''}>${c[1]}</a></div>`).join('')}</div></div>
 ${hd('Summary')}<p class="rs-sum">${R.summary}</p>
 ${hd('Experience')}<div>${R.jobs.map(j=>`<div class="job"><h3>${j[0]}</h3><p class="m">${j[1]}</p><ul>${j[2].map(b=>`<li>${b}</li>`).join('')}</ul></div>`).join('')}</div>
 <div class="rs-cols"><div>${hd('Core skills')}<div class="chips">${R.skills.map(x=>`<span>${x}</span>`).join('')}</div></div><div>${hd('Apps')}<div class="apps">${R.apps.map(a=>`<div><b>${a[0].toUpperCase()}</b>${a[1]}</div>`).join('')}</div></div>
