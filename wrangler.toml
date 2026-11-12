@@ -20,18 +20,18 @@ id = "89364d209f6248a38b3be656aaf985c4"
 
 # ---------------------------------------------------------------------------
 # CUSTOM DOMAIN
-# If you deploy through GitHub + Cloudflare (Workers Builds), attach the domain in the
+# These domains are attached automatically on every deploy.
 # dashboard instead (see README, Step 4) and leave the lines below commented out.
 # If you deploy from your own computer with `npx wrangler deploy`, you can delete the
 # "# " at the start of these lines and Wrangler will attach the domain for you.
 #
-# [[routes]]
-# pattern = "luislopezcreates.com"
-# custom_domain = true
+[[routes]]
+pattern = "luislopezcreates.com"
+custom_domain = true
 #
-# [[routes]]
-# pattern = "www.luislopezcreates.com"
-# custom_domain = true
+[[routes]]
+pattern = "www.luislopezcreates.com"
+custom_domain = true
 # ---------------------------------------------------------------------------
 
 # OPTIONAL: video uploads (R2). Turn on R2 in the dashboard first, create the bucket
