@@ -12,10 +12,9 @@ a{color:inherit;text-decoration:none}
 .ph::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(45deg,transparent 0 14px,color-mix(in srgb,var(--text) 7%,transparent) 14px 15px)}
 .ph span{position:relative}
 .wepa{color:var(--purple);display:inline-block}
-.wl{display:inline-block;animation:wIn .75s cubic-bezier(.34,1.56,.64,1) both,wv 1s ease-in-out infinite;animation-delay:calc(var(--i)*.09s),calc(1s + var(--i)*.09s)}
+.wl{display:inline-block;animation:wIn .75s cubic-bezier(.34,1.56,.64,1) both;animation-delay:calc(var(--i)*.09s)}
 @keyframes wIn{from{transform:translateY(.7em) rotate(-14deg) scale(.55);opacity:0}to{transform:none;opacity:1}}
 @keyframes wWave{0%,100%{transform:translateY(0) rotate(0)}30%{transform:translateY(-.13em) rotate(-5deg)}62%{transform:translateY(.02em) rotate(3deg)}}
-.hero h1:hover .wl{animation-duration:.75s,.8s}
 @media(prefers-reduced-motion:reduce){.wl{animation:none}}
 .hero h1{color:var(--text);font-size:clamp(52px,9vw,112px)}
 /* nav */
@@ -114,11 +113,10 @@ h1,h2{color:var(--head);font-family:'Bricolage Grotesque',var(--font);font-weigh
 /* say hi wave */
 .wavy span,.hand{display:inline-block}
 .hand{transform-origin:70% 70%;margin-left:.1em}
-.cta:not(.open):hover .wavy span,.cta .wavy:hover span{animation:wv 1s ease-in-out infinite;animation-delay:calc(var(--i)*.09s)}
 .cta:hover .hand{animation:hw 1.2s ease-in-out infinite}
 @keyframes wv{0%,100%{transform:translateY(0)}50%{transform:translateY(-.2em)}}
 @keyframes hw{0%,60%,100%{transform:rotate(0)}10%{transform:rotate(16deg)}20%{transform:rotate(-8deg)}30%{transform:rotate(16deg)}40%{transform:rotate(-4deg)}50%{transform:rotate(12deg)}}
-@media(prefers-reduced-motion:reduce){.cta:hover .wavy span,.cta:hover .hand{animation:none}}
+@media(prefers-reduced-motion:reduce){.cta:hover .hand{animation:none}}
 .cta{scroll-margin-top:90px}
 .cform{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s ease}
 .cta.open .cform{grid-template-rows:1fr}

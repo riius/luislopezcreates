@@ -201,3 +201,36 @@ route();
  g.addEventListener('animationend',()=>g.classList.remove('pop'))})})();
 
 ;(function(){const n=document.querySelector('nav');if(!n)return;const f=()=>n.classList.toggle('navbg',(window.scrollY||document.documentElement.scrollTop)>8);addEventListener('scroll',f,{passive:true});f()})();
+
+/* wave engine: one continuous phase per word, so the loop never skips; hovering eases speed and height to a slow stop */
+;(function(){
+ if(matchMedia('(prefers-reduced-motion:reduce)').matches)return;
+ const st=new WeakMap(),PER=1,STEP=.09;
+ const groups=[
+  {box:()=>document.querySelector('.hero h1'),sel:'.wl',idle:true,on:b=>!b.matches(':hover')},
+  {box:()=>document.querySelectorAll('.cta .wavy'),sel:'span',idle:false,on:b=>{const c=b.closest('.cta');return b.matches(':hover')||(c&&c.matches(':hover:not(.open)'))}}
+ ];
+ let last=performance.now();
+ function tick(now){
+  const dt=Math.min(.05,(now-last)/1000);last=now;
+  for(const g of groups){
+   const r=g.box();const boxes=!r?[]:(r.length!==undefined?[...r]:[r]);
+   for(const b of boxes){
+    if(!b.offsetParent)continue;
+    let o=st.get(b);if(!o){o={lvl:0,ph:0};st.set(b,o)}
+    const target=g.on(b)?1:0;
+    o.lvl+=(target-o.lvl)*(1-Math.pow(target>o.lvl?.02:.18,dt));   /* quick to start, a slow 2-3 second glide to a stop */
+    if(o.lvl<.002&&target===0){o.lvl=0}
+    o.ph+=dt*2*Math.PI/PER*o.lvl;
+    const spans=b.querySelectorAll(g.sel);
+    spans.forEach((el,k)=>{
+     const i=parseFloat(el.style.getPropertyValue('--i'));const idx=isNaN(i)?k:i;
+     const y=-.2*o.lvl*(1-Math.cos(o.ph-idx*STEP*2*Math.PI/PER))/2;
+     el.style.translate=o.lvl?'0 '+y.toFixed(4)+'em':'none';
+    });
+   }
+  }
+  requestAnimationFrame(tick);
+ }
+ requestAnimationFrame(tick);
+})();
