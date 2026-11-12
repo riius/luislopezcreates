@@ -136,7 +136,7 @@ cf.addEventListener('submit',async e=>{e.preventDefault();const d=Object.fromEnt
 addEventListener('hashchange',route);
 
 /* ---- PASTE YOUR LINKS HERE ---- */
-const LINKS={instagram:"",calendly:"",linkedin:"",contra:""};
+const LINKS={instagram:"https://www.instagram.com/thearawaknation/?hl=en",calendly:"https://calendly.com/app/scheduling/meeting_types/user/me",linkedin:"https://www.linkedin.com/in/rayflectx/",contra:"https://contra.com/luis_raymond_lopez_g0o0k5rp?referralExperimentNid=DEFAULT_REFERRAL_PROGRAM&referrerUsername=luis_raymond_lopez_g0o0k5rp"};
 function applyLinks(){document.querySelectorAll('[data-link]').forEach(a=>{const u=LINKS[a.dataset.link];
  if(u){a.href=u;a.target='_blank';a.rel='noopener';a.onclick=null}else{a.removeAttribute('target');a.href='#';a.onclick=e=>e.preventDefault()}})}
 applyLinks();
