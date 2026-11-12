@@ -136,7 +136,7 @@ cf.addEventListener('submit',async e=>{e.preventDefault();const d=Object.fromEnt
 addEventListener('hashchange',route);
 
 /* ---- PASTE YOUR LINKS HERE ---- */
-const LINKS={instagram:"https://www.instagram.com/thearawaknation/?hl=en",calendly:"https://calendly.com/app/scheduling/meeting_types/user/me",linkedin:"https://www.linkedin.com/in/rayflectx/",contra:"https://contra.com/luis_raymond_lopez_g0o0k5rp?referralExperimentNid=DEFAULT_REFERRAL_PROGRAM&referrerUsername=luis_raymond_lopez_g0o0k5rp"};
+const LINKS={instagram:"https://www.instagram.com/thearawaknation/?hl=en",calendly:"https://calendly.com/rayflect5/30min",linkedin:"https://www.linkedin.com/in/rayflectx/",contra:"https://contra.com/luis_raymond_lopez_g0o0k5rp?referralExperimentNid=DEFAULT_REFERRAL_PROGRAM&referrerUsername=luis_raymond_lopez_g0o0k5rp"};
 function applyLinks(){document.querySelectorAll('[data-link]').forEach(a=>{const u=LINKS[a.dataset.link];
  if(u){a.href=u;a.target='_blank';a.rel='noopener';a.onclick=null}else{a.removeAttribute('target');a.href='#';a.onclick=e=>e.preventDefault()}})}
 applyLinks();
@@ -173,7 +173,7 @@ $('about').innerHTML=`<section class="ab"><h1>About</h1><div class="ab-top"><div
 renderAbout();
 /* Say hi / Reach out heading with wavy hover */
 const SUB="<span>I’ll reveal why moving one pixel to the left is a<br class=\"d\"> perfectly reasonable use of 20 minutes. 🎨</span>";
-const CONTACT={main:"Say hi.",about:"Reach out.",sub:SUB,book:"https://calendly.com/",email:"",endpoint:""};
+const CONTACT={main:"Say hi.",about:"Reach out.",sub:SUB,book:"https://calendly.com/rayflect5/30min",email:"",endpoint:""};
 function setCta(about){const c=[about?CONTACT.about:CONTACT.main,CONTACT.sub],h=document.querySelector('.cta h2');h.classList.add('wavy');
  h.innerHTML=[...c[0]].map((ch,i)=>`<span style="--i:${i}">${ch===' '?'&nbsp;':ch}</span>`).join('');h.nextElementSibling.innerHTML=c[1]}
 const root=document.documentElement,inputs=[...document.querySelectorAll('input[type=color]')];
