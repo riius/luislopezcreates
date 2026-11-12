@@ -198,3 +198,5 @@ route();
   const h=location.hash;if(h&&h!=='#/')location.hash='#/';else scrollTo({top:0,behavior:'smooth'})};
  g.addEventListener('click',go);g.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' ')go(e)});
  g.addEventListener('animationend',()=>g.classList.remove('pop'))})})();
+
+;(function(){const n=document.querySelector('nav');if(!n)return;const f=()=>n.classList.toggle('navbg',(window.scrollY||document.documentElement.scrollTop)>8);addEventListener('scroll',f,{passive:true});f()})();
