@@ -1,11 +1,11 @@
 # Cloudflare Worker config for luislopezcreates.com
-# IMPORTANT: "name" must match the Worker's name in the Cloudflare dashboard.
-name = "luis-portfolio"
+# IMPORTANT: "name" must match the Worker name in the Cloudflare dashboard (yours is my-dynamic-site).
+name = "my-dynamic-site"
 account_id = "895708b4bdc3419e163419cdb51e204a"
 main = "worker.js"
 compatibility_date = "2025-09-01"
 
-# Keeps https://luis-portfolio.<your-subdomain>.workers.dev working for testing.
+# Keeps https://luislopezcreates.<your-subdomain>.workers.dev working for testing.
 workers_dev = true
 
 # The website files (index.html, styles.css, app.js, editor.js, assets/).

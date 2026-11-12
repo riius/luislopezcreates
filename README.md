@@ -33,16 +33,17 @@ your-repo/
 
 ## Step 2: Connect the repo to Cloudflare
 1. Cloudflare dashboard, **Workers & Pages**, **Create**, **Import a repository**. Connect GitHub and pick your repo.
-2. **Project name: `luis-portfolio`.** It must match the `name` line in `wrangler.toml`.
-   (If you'd rather keep another name, change `name = "luis-portfolio"` in `wrangler.toml` to match it exactly.)
+2. **Use your existing Worker `my-dynamic-site`** (your domain already points to it), or import with the project name `my-dynamic-site`. The name must match the `name` line in `wrangler.toml`.
+   (If you use a different name, change `name = "my-dynamic-site"` in `wrangler.toml` to match it exactly.)
 3. Build settings: **Root directory** `/` (leave it blank or `/`), **Build command** leave empty, **Deploy command** `npx wrangler deploy`.
 4. Save and deploy. Every time you push a change to GitHub, Cloudflare redeploys automatically.
 
-If you already have a Worker in the dashboard called `restless-butterfly-2d25` that you connected to GitHub earlier, either
-(a) change the `name` line in `wrangler.toml` to `restless-butterfly-2d25`, or (b) delete that Worker and import the repo fresh with the project name above.
+**If your domain shows only "Hello world":** your Worker `my-dynamic-site` still has Cloudflare's starter code, which means the GitHub deploy hasn't reached it yet.
+Open the Worker, **Deployments** tab, and look at the latest one. In **Settings, Builds**, check that it is connected to your repo and branch (usually `main`),
+then push any small change (or click **Retry build**). When the deploy succeeds, the Deployments tab shows a new version and the domain serves your site.
 
 ## Step 3: Set your admin password (this makes editing work)
-Worker, **Settings**, **Variables and Secrets**, **Add**, type **Secret**, name `ADMIN_TOKEN`, value = a long random password.
+Worker `my-dynamic-site`, **Settings**, **Variables and Secrets**, **Add**, type **Secret**, name `ADMIN_TOKEN`, value = a long random password.
 Save it in a password manager. It's needed to publish edits. Secrets stay put when GitHub redeploys.
 
 ## Step 4: Attach your domain

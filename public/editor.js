@@ -1,9 +1,15 @@
+
 (()=>{
 const KEY='luis-site-v1',PHOTO0=PHOTO,UI={hide:false};
 const h=(t,a={},...c)=>{const e=document.createElement(t);for(const k in a){const v=a[k];if(k==='cls')e.className=v;else if(k==='on')for(const ev in v)e.addEventListener(ev,v[ev]);else if(k in e)e[k]=v;else e.setAttribute(k,v)}c.flat(9).forEach(x=>e.append(x&&x.nodeType?x:document.createTextNode(x==null?'':x)));return e};
 const snapshot=()=>({v:1,work:works,motion:MOTION,hero:HERO,doItems:DO,about:{intro:ABOUT.intro,paras:ABOUT.paras,photo:PHOTO===PHOTO0?'':PHOTO},resume:RESUME,contact:CONTACT,links:LINKS,ui:UI,theme:Object.fromEntries(inputs.filter(i=>i.value!==def[i.dataset.v]).map(i=>[i.dataset.v,i.value]))});
+const LEGACY_KNOWN=['Parkway Orlando','Synergy Labs','Conviva Care Center','Spending Unfolded','Day & Night','Jazz','Ctuber','RAW Launch','Dino Mascot','Demo reel','The Guy','Rumedy','Pyxis AI','Nightwalker','El Vermú','Las malas palabras','The Race'];
+function mergeWork(saved,known){saved=saved.filter(w=>!(String(w.t).toLowerCase()==='day & night'&&!w.art&&!w.img&&!w.copy&&w.cl==='Personal'));saved=saved.filter(w=>!(String(w.t).toLowerCase()==='jazz'&&!w.art&&!w.img&&!w.copy&&w.cl==='Client Name'));const low=x=>String(x||'').toLowerCase(),kn=new Set((known||LEGACY_KNOWN).map(low)),defs=DEFS.work;
+ const out=saved.map(w=>{const d=defs.find(x=>low(x.t)===low(w.t));if(!d)return w;const m={...w};if(d.art&&!m.art&&!m.img)m.art=d.art;if(d.link&&!m.link)m.link=d.link;if(!m.copy&&d.copy)m.copy=d.copy;for(const k of ['c','y','cl','sv','r']){if(d[k]&&(!m[k]||/^(Category|Client|Services|Role)$/.test(m[k])))m[k]=d[k]}return m});
+ defs.forEach((d,i)=>{if(!kn.has(low(d.t))&&!out.some(w=>low(w.t)===low(d.t)))out.splice(Math.min(i,out.length),0,JSON.parse(JSON.stringify(d)))});
+ works.splice(0,works.length,...out)}
 function applyData(d){
- if(d.work)works.splice(0,works.length,...d.work);
+ if(d.work)mergeWork(d.work,d.knownDefaults);
  if(d.motion)Object.assign(MOTION,d.motion);
  if(d.hero)Object.assign(HERO,d.hero);
  if(d.doItems)DO.splice(0,DO.length,...d.doItems);
@@ -17,12 +23,12 @@ function refresh(){renderHero();renderDo();renderGrid();renderPlay();renderAbout
  const hs=location.hash;setCta(hs==='#/about'||hs==='#/dynamic-motion');
  if(!$('case').hidden){const m=hs.match(/^#\/work\/(.+)$/),i=m?works.findIndex(w=>slug(w.t)===m[1]):-1;if(i>-1)render(i)}}
 const st=h('span',{cls:'est'});let timer;
-function diff(){const cur=snapshot(),out={v:1};for(const k in cur){if(k!=='v'&&JSON.stringify(cur[k])!==JSON.stringify(DEFS[k]))out[k]=cur[k]}return out}
+function diff(){const cur=snapshot(),out={v:1};for(const k in cur){if(k!=='v'&&JSON.stringify(cur[k])!==JSON.stringify(DEFS[k]))out[k]=cur[k]}out.knownDefaults=DEFS.work.map(w=>w.t);return out}
 function save(){try{localStorage.setItem(KEY,JSON.stringify(diff()));st.textContent='Saved ✓'}catch(e){st.textContent='Storage full: use Data → Download'}}
 function commit(){clearTimeout(timer);st.textContent='…';timer=setTimeout(()=>{refresh();save()},180)}
 const btn=(t,f,c='')=>h('button',{type:'button',cls:'eb '+c,on:{click:e=>{e.preventDefault();e.stopPropagation();f(e)}}},t);
 function F(label,get,set,o={}){const i=h(o.area?'textarea':'input',{rows:o.rows||3,placeholder:o.ph||''});const v=get();i.value=v==null?'':v;i.addEventListener('input',()=>{set(i.value);commit()});return h('label',{cls:'ef'},label,i)}
-function shrink(f,max=1400){return new Promise(r=>{if(/gif|svg|webp/.test(f.type)&&f.size<3e6){const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(f);return}
+function shrink(f,max=1400){return new Promise(r=>{if((/gif|svg|webp/.test(f.type)&&f.size<3e6)||(f.type==='image/png'&&f.size<6e5)){const fr=new FileReader();fr.onload=()=>r(fr.result);fr.readAsDataURL(f);return}
  const im=new Image,u=URL.createObjectURL(f);im.onload=()=>{const k=Math.min(1,max/Math.max(im.width,im.height)),c=h('canvas');c.width=Math.round(im.width*k);c.height=Math.round(im.height*k);const x=c.getContext('2d');x.fillStyle='#fff';x.fillRect(0,0,c.width,c.height);x.drawImage(im,0,0,c.width,c.height);URL.revokeObjectURL(u);r(c.toDataURL('image/jpeg',.82))};im.src=u})}
 const VMIME={mp4:'video/mp4',m4v:'video/x-m4v',webm:'video/webm',mov:'video/quicktime',mkv:'video/x-matroska',ogv:'video/ogg'};
 const vext=f=>((f.name||'').split('.').pop()||'').toLowerCase();
@@ -67,7 +73,7 @@ function pubUI(){const tok=h('input',{type:'password',placeholder:'Admin token'}
    pst.textContent='Published ✓ Visitors will see your changes.'}catch(e){pst.textContent='Could not publish: '+e.message}},'pri');
  return[h('h4',{},'Publish to your live site'),h('p',{cls:'est'},'Your edits are drafts in this browser until you publish. Enter the admin token you set in Cloudflare and press Publish, and every visitor sees them.'),h('label',{cls:'ef'},'Admin token',tok),go,pst,h('h4',{},'Backup')]}
 const T={
-Home:()=>[F('Greeting (purple word)',()=>HERO.greet,v=>HERO.greet=v),F('Name line',()=>HERO.name,v=>HERO.name=v),F('Intro under the headline (HTML ok, <b>bold</b>)',()=>HERO.sub,v=>HERO.sub=v,{area:1,rows:4}),F('Logo: first name',()=>HERO.l1,v=>HERO.l1=v),F('Logo: last name',()=>HERO.l2,v=>HERO.l2=v),F('Footer text',()=>HERO.foot,v=>HERO.foot=v),F('"What I do" heading',()=>HERO.doTitle,v=>HERO.doTitle=v),
+Home:()=>[F('Greeting (purple word)',()=>HERO.greet,v=>HERO.greet=v),F('Name line',()=>HERO.name,v=>HERO.name=v),F('Intro under the headline (HTML ok, <b>bold</b>)',()=>HERO.sub,v=>HERO.sub=v,{area:1,rows:4}),F('Footer text',()=>HERO.foot,v=>HERO.foot=v),F('"What I do" heading',()=>HERO.doTitle,v=>HERO.doTitle=v),
  h('h4',{},'What I do'),List(DO,x=>x[0],x=>[F('Title',()=>x[0],v=>x[0]=v),F('Text',()=>x[1],v=>x[1]=v,{area:1,rows:6})],()=>['New service','Describe it here.'])],
 Work:()=>[h('p',{cls:'est'},'Add, reorder or delete projects. Open one to edit its details, images and case study text.'),
  List(works,w=>w.t,w=>{const cp=()=>w.copy||(w.copy={...COPY});return[
