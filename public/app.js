@@ -118,6 +118,7 @@ function route(){
  else if(isPlay||isAbout)scrollTo(0,0);
  else{const id=location.hash.slice(1);if(id==='work')revealWork();const el=id&&id[0]!=='/'&&$(id);if(el)el.scrollIntoView();else scrollTo(0,0)}
  document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('on',(a.dataset.nav==='work'&&i>-1)||(a.dataset.nav==='play'&&isPlay)||(a.dataset.nav==='about'&&isAbout)));
+ document.body.classList.toggle("no-topo",isAbout||isPlay||location.hash==="#contact");
  setCta(isAbout||isPlay);
 }
 const cta=$('cta'),cf=$('cf'),ok=cta.querySelector('.cform-ok');
