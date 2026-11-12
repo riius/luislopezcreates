@@ -208,7 +208,7 @@ route();
  const st=new WeakMap(),PER=1,STEP=.09;
  const groups=[
   {box:()=>document.querySelector('.hero h1'),sel:'.wl',idle:true,on:b=>!b.matches(':hover')},
-  {box:()=>document.querySelectorAll('.cta .wavy'),sel:'span',idle:false,on:b=>{const c=b.closest('.cta');return b.matches(':hover')||(c&&c.matches(':hover:not(.open)'))}}
+  {box:()=>document.querySelectorAll('.cta .wavy'),sel:'span',idle:true,on:b=>{const c=b.closest('.cta');return !(b.matches(':hover')||(c&&c.matches(':hover:not(.open)')))}}
  ];
  let last=performance.now();
  function tick(now){
