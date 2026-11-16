@@ -150,7 +150,7 @@ paras:["With 10+ years in digital design, I've spent my time bringing ideas to l
 /* ---- EDIT RESUME HERE ---- */
 const RESUME={file:"assets/14a2d7528fb5.pdf",
 role:"Digital Designer / Motion",
-contact:[["phone","626 780 1244","tel:6267801244"],["mail","rayflect5@gmail.com","mailto:rayflect5@gmail.com"],["web","riius.portfoliobox.net","https://riius.portfoliobox.net"],["linkedin","linkedin.com/in/rayflectx","https://linkedin.com/in/rayflectx"]],
+contact:[],
 summary:"Experienced Digital Motion Designer with over 10 years in digital media design, specializing in Adobe Creative Suite (Illustrator, Photoshop, Animate, After Effects, and Figma ). Proven expertise in technical graphic design, schematic creation, and production file preparation. Strong knowledge of typography, color theory, and layout design.",
 jobs:[
 ["Digital Marketing Designer at Vacatia","Fort Lauderdale, FL | June 2026 - Present",["Design digital and print marketing materials for the marketing team, including emails, social media assets, fact sheets, retractable banners, and magazines.","Design and test A/B email variations in Figma to improve engagement and performance.","Created a Figma design system to support consistent, efficient design across marketing materials.","Produce videos from long-form to short-form content, along with social media assets and animations for the web.","Worked on websites, landing pages, and digital assets across email, social media, digital advertising, web banners, e-commerce, and digital campaigns."]],
@@ -163,7 +163,7 @@ edu:["BA in Media Arts and Animation - Art Institute","Continued Education - Ude
 lang:"Spanish - Fluently | English - Fluently"
 };
 function renderAbout(){const R=RESUME,hd=t=>`<h3 class="rs-h">${t}</h3>`;
-const resumeHTML=`<section class="rs"><div class="rs-top"><div><div class="rs-title"><h2>Resume</h2>${R.file?`<a class="btn-dl" href="${R.file}" download="Luis_Lopez_Resume_Dark_2026.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download resume</a>`:''}</div><p class="role">${R.role}</p></div><div class="rs-contact">${R.contact.map(c=>`<div><span>${c[0]}</span><a href="${c[2]}" ${c[2].startsWith('http')?'target="_blank" rel="noopener"':''}>${c[1]}</a></div>`).join('')}</div></div>
+const resumeHTML=`<section class="rs"><div class="rs-top"><div><div class="rs-title"><h2>Resume</h2>${R.file?`<a class="btn-dl" href="${R.file}" download="Luis_Lopez_Resume_Dark_2026.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download resume</a>`:''}</div><p class="role">${R.role}</p></div></div>
 ${hd('Summary')}<p class="rs-sum">${R.summary}</p>
 ${hd('Experience')}<div>${R.jobs.map(j=>`<div class="job"><h3>${j[0]}</h3><p class="m">${j[1]}</p><ul>${j[2].map(b=>`<li>${b}</li>`).join('')}</ul></div>`).join('')}</div>
 <div class="rs-cols"><div>${hd('Core skills')}<div class="chips">${R.skills.map(x=>`<span>${x}</span>`).join('')}</div></div><div>${hd('Apps')}<div class="apps">${R.apps.map(a=>`<div><b>${a[0].toUpperCase()}</b>${a[1]}</div>`).join('')}</div></div>
