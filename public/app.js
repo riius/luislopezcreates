@@ -201,6 +201,11 @@ route();
  g.addEventListener('animationend',()=>g.classList.remove('pop'))})})();
 
 ;(function(){const n=document.querySelector('nav');if(!n)return;const f=()=>n.classList.toggle('navbg',(window.scrollY||document.documentElement.scrollTop)>8);addEventListener('scroll',f,{passive:true});f()})();
+;(function(){const g=document.createElement('div');g.id='glow';g.setAttribute('aria-hidden','true');document.body.appendChild(g);const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;let tx=innerWidth*.28,ty=innerHeight*.3,x=tx,y=ty,run=false;const put=()=>{g.style.transform='translate3d('+x+'px,'+y+'px,0)'};put();g.classList.add('on');
+const mv=e=>{const p=e.touches?e.touches[0]:e;tx=p.clientX;ty=p.clientY;if(rm){x=tx;y=ty;put()}else if(!run){run=true;requestAnimationFrame(tick)}};
+function tick(){x+=(tx-x)*.12;y+=(ty-y)*.12;put();if(Math.abs(tx-x)+Math.abs(ty-y)>.4)requestAnimationFrame(tick);else run=false}
+addEventListener('pointermove',mv,{passive:true});addEventListener('touchstart',mv,{passive:true});addEventListener('touchmove',mv,{passive:true});document.addEventListener('mouseleave',()=>g.classList.remove('on'));document.addEventListener('mouseenter',()=>g.classList.add('on'))})();
+
 
 /* wave engine: one continuous phase per word, so the loop never skips; hovering eases speed and height to a slow stop */
 ;(function(){

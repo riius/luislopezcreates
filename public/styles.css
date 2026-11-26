@@ -227,6 +227,11 @@ h1,h2{color:var(--head);font-family:'Bricolage Grotesque',var(--font);font-weigh
 .live-pop{position:absolute;left:50%;top:50%;z-index:12;transform:translate(-50%,-42%) scale(.92);opacity:0;pointer-events:none;white-space:nowrap;cursor:pointer;padding:.85em 1.6em;border-radius:999px;background:var(--accent);color:var(--accent-text);font:700 max(12px,2cqw) var(--font);box-shadow:0 1cqw 3cqw rgba(10,20,30,.35);transition:opacity .25s,transform .25s,background-color .2s}
 .thumb:hover .live-pop{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
 .live-pop:hover{background:var(--purple)}
+.topo{display:none!important}
+#glow{position:fixed;left:0;top:0;width:620px;height:620px;margin:-310px 0 0 -310px;border-radius:50%;pointer-events:none;z-index:-1;opacity:0;transition:opacity .6s;background:radial-gradient(circle,rgba(160,160,207,.26) 0%,rgba(61,220,180,.10) 42%,rgba(61,220,180,0) 70%);will-change:transform}
+#glow.on{opacity:1}
+@media(max-width:820px){#glow{width:420px;height:420px;margin:-210px 0 0 -210px}}
+
 @media(hover:none){.live-pop{top:auto;bottom:14px;opacity:1;pointer-events:auto;transform:translate(-50%,0) scale(1);padding:.7em 1.3em;font-size:max(12px,3.4cqw)}}
 .cs .hero-art{margin-bottom:24px}
 .hero-art .thumb{border-radius:28px}
