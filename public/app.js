@@ -190,7 +190,7 @@ bg.onclick=()=>setNav(!nav.classList.contains('open'));
 document.querySelectorAll('.links a').forEach(a=>a.addEventListener('click',()=>setNav(false)));
 document.getElementById('tog').onclick=()=>document.getElementById('tp').classList.toggle('open');
 document.addEventListener('click',e=>{const a=e.target.closest('a[href="#work"]');if(!a)return;e.preventDefault();if(location.hash!=='#work')location.hash='#work';else route()});
-document.addEventListener('click',e=>{const b=e.target.closest('.live-pop');if(!b)return;e.preventDefault();e.stopPropagation();window.open(b.dataset.href,'_blank','noopener')},true);
+document.addEventListener('click',e=>{const b=e.target.closest('.live-pop');if(!b)return;e.preventDefault();e.stopPropagation();const a=document.createElement('a');a.href=b.dataset.href;a.target='_blank';a.rel='noopener noreferrer';a.style.display='none';document.body.appendChild(a);a.click();setTimeout(()=>a.remove(),300)},true);
 route();
 
 /* LL logo: each click on an L cycles outline -> purple -> green -> outline, with a little bounce; also goes home */
