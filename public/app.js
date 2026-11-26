@@ -243,15 +243,6 @@ route();
   tag(document.body);
   new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===1)tag(n)}))).observe(document.body,{childList:true,subtree:true});
  }
- /* 2. magnetic buttons: they drift a few pixels toward the cursor (mouse only) */
- if(!rm.matches&&fine.matches){
-  const R=80;let raf=0,mx=0,my=0;
-  const run=()=>{raf=0;document.querySelectorAll('.hero .btn,.cta .row .btn,.more .btn,.btn-dl').forEach(b=>{if(!b.offsetParent)return;const r=b.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,dx=mx-cx,dy=my-cy;
-   const inside=mx>r.left-R&&mx<r.right+R&&my>r.top-R&&my<r.bottom+R;
-   if(inside){b.style.translate=Math.max(-9,Math.min(9,dx*.2)).toFixed(1)+'px '+Math.max(-7,Math.min(7,dy*.25)).toFixed(1)+'px';b.dataset.mg=1}else if(b.dataset.mg){b.style.translate='';delete b.dataset.mg}})};
-  addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;mx=e.clientX;my=e.clientY;if(!raf)raf=requestAnimationFrame(run)},{passive:true});
-  document.addEventListener('mouseleave',()=>{document.querySelectorAll('[data-mg]').forEach(b=>{b.style.translate='';delete b.dataset.mg})});
- }
  /* 3. easter egg: click ¡Wepa! five times, or type "wepa" */
  const LINES=['¡Wepa! You found it.','¡Wepa wepa! Nobody clicks that five times… except you.','Okay okay, ¡wepa! Thanks for poking around.','You have excellent curiosity. ¡Wepa!'];
  let busy=false;

@@ -380,7 +380,6 @@ html[data-theme="light"] :focus-visible{outline-color:#0a705a}
 .live-pop:focus-visible{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}html[data-theme="light"] :is(.hero .btn:hover,.hero .btn.p:hover,.hero a.btn[data-open-form]:hover,.cta .row a.btn[data-open-form]:hover,.cta .row .btn:not(.bk):hover){color:#fff}.rv{opacity:0;transform:translateY(22px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}.rv.in{opacity:1;transform:none}
 @keyframes pgin{from{opacity:0;transform:translateY(12px)}}
 .pgin{animation:pgin .38s cubic-bezier(.2,.7,.3,1) backwards}
-.hero .btn,.cta .row .btn,.more .btn,.btn-dl{transition:transform .3s,background-color .25s,color .25s,translate .25s ease-out}
 .wepa-burst{position:fixed;inset:0;z-index:95;pointer-events:none;overflow:hidden}.wepa-burst i{position:absolute;display:block}
 .wepa-toast{position:fixed;left:50%;bottom:28px;z-index:96;max-width:min(92vw,420px);padding:.8em 1.3em;border-radius:999px;background:var(--accent);color:var(--accent-text);font:700 15px/1.3 var(--font);text-align:center;box-shadow:0 10px 30px rgba(0,0,0,.25);opacity:0;transform:translate(-50%,16px);transition:opacity .35s,transform .35s;pointer-events:none}
 .wepa-toast.on{opacity:1;transform:translate(-50%,0)}
