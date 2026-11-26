@@ -65,6 +65,7 @@ approach:"Describe your process here: references and moodboards, character desig
 result:"Share the outcome: where the piece lives, how people responded, and any numbers or feedback worth highlighting. Swap this text for the real story."
 };
 /* ---- ROUTER: clean URLs (/work/x, /motion, /about) on the live site; #-links elsewhere (e.g. the editor preview) ---- */
+let lastViewKey=null;
 const PATHMODE=!!window.SITE_CONFIG&&/^https?:$/.test(location.protocol);
 const toPath=h=>h==='#/dynamic-motion'?'/motion':h==='#/about'?'/about':/^#\/work\//.test(h)?h.slice(1):h==='#/'||!h?'/':'/'+h;
 const fromPath=u=>{u=u.replace(/\/+$/,'')||'/';return u==='/motion'?'#/dynamic-motion':u==='/about'?'#/about':/^\/work\//.test(u)?'#'+u:'#/'};
@@ -137,6 +138,9 @@ function route(){
  document.querySelectorAll('[data-nav]').forEach(a=>a.classList.toggle('on',(a.dataset.nav==='work'&&i>-1)||(a.dataset.nav==='play'&&isPlay)||(a.dataset.nav==='about'&&isAbout)));
  document.body.classList.toggle("no-topo",isAbout||isPlay||H==="#contact");
  setCta(isAbout||isPlay);
+ {const key=i>-1?'w'+i:isPlay?'p':isAbout?'a':'h',el=i>-1?$('case'):isPlay?$('play'):isAbout?$('about'):$('home');
+  if(lastViewKey!==null&&key!==lastViewKey&&!matchMedia('(prefers-reduced-motion:reduce)').matches){el.classList.remove('pgin');void el.offsetWidth;el.classList.add('pgin');setTimeout(()=>el.classList.remove('pgin'),600)}
+  lastViewKey=key}
  document.title=i>-1?works[i].t+' | Luis Lopez':isPlay?PAGE_TITLES.play:isAbout?PAGE_TITLES.about:PAGE_TITLES.home;
  if(PATHMODE){const cl=document.querySelector('link[rel=canonical]');if(cl)cl.href='https://luislopezcreates.com'+(i>-1?'/work/'+m[1]:isPlay?'/motion':isAbout?'/about':'/')}
 }
@@ -168,7 +172,7 @@ intro:"I'm Luis, a motion designer and interactive animator who makes pixels mov
 paras:["With 10+ years in digital design, I've spent my time bringing ideas to life through motion, interactive experiences, animated ads, and digital campaigns. My toolkit includes Adobe Creative Suite, Figma, Rive, and a healthy disregard for how many layers one project actually needs.","When I'm not moving pixels around, I'm probably chasing a new creative idea, experimenting with something I probably didn't need to learn, or opening another browser tab I'll definitely get back to later."]
 };
 /* ---- EDIT RESUME HERE ---- */
-const RESUME={file:"/assets/8ef838be62b6.pdf",
+const RESUME={file:"/assets/6cdc383ef318.pdf",
 role:"Digital Designer / Motion",
 contact:[],
 summary:"Experienced Digital Motion Designer with 10+ years in digital media design, specializing in Adobe Creative Suite (Illustrator, Photoshop, Animate, After Effects, and Figma ). Proven expertise in technical graphic design, schematic creation, and production file preparation. Strong knowledge of typography, color theory, and layout design.",
@@ -183,7 +187,7 @@ edu:["BA in Media Arts and Animation - Art Institute","Continued Education - Ude
 lang:"Spanish - Fluently | English - Fluently"
 };
 function renderAbout(){const R=RESUME,hd=t=>`<h3 class="rs-h">${t}</h3>`;
-const resumeHTML=`<section class="rs"><div class="rs-top"><div><div class="rs-title"><h2>Resume</h2>${R.file?`<a class="btn-dl" href="${R.file}" download="Luis_Lopez_Resume_Dark_2026.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download resume</a>`:''}</div><p class="role">${R.role}</p></div></div>
+const resumeHTML=`<section class="rs"><div class="rs-top"><div><div class="rs-title"><h2>Resume</h2>${R.file?`<a class="btn-dl" href="${R.file}" download="Luis_Lopez_Resume_2026.pdf"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 4v11m0 0-4.5-4.5M12 15l4.5-4.5M5 20h14"/></svg>Download resume</a>`:''}</div><p class="role">${R.role}</p></div></div>
 ${hd('Summary')}<p class="rs-sum">${R.summary}</p>
 ${hd('Experience')}<div>${R.jobs.map(j=>`<div class="job"><h3>${j[0]}</h3><p class="m">${j[1]}</p><ul>${j[2].map(b=>`<li>${b}</li>`).join('')}</ul></div>`).join('')}</div>
 <div class="rs-cols"><div>${hd('Core skills')}<div class="chips">${R.skills.map(x=>`<span>${x}</span>`).join('')}</div></div><div>${hd('Apps')}<div class="apps">${R.apps.map(a=>`<div><b>${a[0].toUpperCase()}</b>${a[1]}</div>`).join('')}</div></div>
@@ -228,6 +232,42 @@ route();
 ;(function(){const root=document.documentElement,b=document.getElementById('themeSw');if(!b)return;const set=(dark,save)=>{if(dark)root.removeAttribute('data-theme');else root.setAttribute('data-theme','light');b.setAttribute('aria-checked',dark?'true':'false');b.setAttribute('aria-label',dark?'Dark mode':'Light mode');if(save){try{localStorage.setItem('luis-mode',dark?'dark':'light')}catch(e){}}};set(root.getAttribute('data-theme')!=='light',false);b.addEventListener('click',()=>set(b.getAttribute('aria-checked')!=='true',true))})();
 
 
+/* ---- subtle interactions: scroll reveals, magnetic buttons, ¡Wepa! easter egg ---- */
+(function(){
+ const rm=matchMedia('(prefers-reduced-motion:reduce)'),fine=matchMedia('(hover:hover) and (pointer:fine)');
+ /* 1. scroll reveals: elements fade up as they enter the screen (classes are added by script, so nothing is ever hidden without JS) */
+ if(!rm.matches&&'IntersectionObserver' in window){
+  const SEL='#grid>.card,#do>div,.head,.pgrid>.pc,.cs .sec,.job,.rs-cols>div';
+  const io=new IntersectionObserver(es=>{let k=0;es.forEach(e=>{if(!e.isIntersecting)return;const el=e.target;io.unobserve(el);el.style.transitionDelay=Math.min(k++,5)*70+'ms';el.classList.add('in');setTimeout(()=>{el.classList.remove('rv','in');el.style.transitionDelay=''},1100)})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+  const tag=r=>{const list=r.matches&&r.matches(SEL)?[r]:[];r.querySelectorAll&&list.push(...r.querySelectorAll(SEL));list.forEach(el=>{if(el.dataset.rv)return;el.dataset.rv=1;el.classList.add('rv');io.observe(el)})};
+  tag(document.body);
+  new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{if(n.nodeType===1)tag(n)}))).observe(document.body,{childList:true,subtree:true});
+ }
+ /* 2. magnetic buttons: they drift a few pixels toward the cursor (mouse only) */
+ if(!rm.matches&&fine.matches){
+  const R=80;let raf=0,mx=0,my=0;
+  const run=()=>{raf=0;document.querySelectorAll('.hero .btn,.cta .row .btn,.more .btn,.btn-dl').forEach(b=>{if(!b.offsetParent)return;const r=b.getBoundingClientRect(),cx=r.left+r.width/2,cy=r.top+r.height/2,dx=mx-cx,dy=my-cy;
+   const inside=mx>r.left-R&&mx<r.right+R&&my>r.top-R&&my<r.bottom+R;
+   if(inside){b.style.translate=Math.max(-9,Math.min(9,dx*.2)).toFixed(1)+'px '+Math.max(-7,Math.min(7,dy*.25)).toFixed(1)+'px';b.dataset.mg=1}else if(b.dataset.mg){b.style.translate='';delete b.dataset.mg}})};
+  addEventListener('pointermove',e=>{if(e.pointerType!=='mouse')return;mx=e.clientX;my=e.clientY;if(!raf)raf=requestAnimationFrame(run)},{passive:true});
+  document.addEventListener('mouseleave',()=>{document.querySelectorAll('[data-mg]').forEach(b=>{b.style.translate='';delete b.dataset.mg})});
+ }
+ /* 3. easter egg: click ¡Wepa! five times, or type "wepa" */
+ const LINES=['¡Wepa! You found it.','¡Wepa wepa! Nobody clicks that five times… except you.','Okay okay, ¡wepa! Thanks for poking around.','You have excellent curiosity. ¡Wepa!'];
+ let busy=false;
+ function wepa(x,y){if(busy)return;busy=true;
+  const t=document.createElement('div');t.className='wepa-toast';t.setAttribute('role','status');t.textContent=LINES[Math.floor(Math.random()*LINES.length)];document.body.append(t);
+  if(!rm.matches){const cols=['#3ddcb4','#a0a0cf','#ffffff','#2fcba4','#6767a6'],box=document.createElement('div');box.className='wepa-burst';document.body.append(box);
+   for(let k=0;k<26;k++){const d=document.createElement('i'),a=Math.random()*Math.PI*2,dist=70+Math.random()*130,sz=6+Math.random()*8;
+    d.style.cssText='left:'+x+'px;top:'+y+'px;width:'+sz+'px;height:'+sz+'px;background:'+cols[k%cols.length]+';border-radius:'+(k%3?'50%':'2px');box.append(d);
+    d.animate([{transform:'translate(-50%,-50%) scale(1) rotate(0)',opacity:1},{transform:'translate('+(Math.cos(a)*dist-sz/2).toFixed(0)+'px,'+(Math.sin(a)*dist+60-sz/2).toFixed(0)+'px) scale(.4) rotate('+(Math.random()*360).toFixed(0)+'deg)',opacity:0}],{duration:900+Math.random()*500,easing:'cubic-bezier(.2,.7,.3,1)',fill:'forwards'})}
+   setTimeout(()=>box.remove(),1600)}
+  requestAnimationFrame(()=>t.classList.add('on'));
+  setTimeout(()=>{t.classList.remove('on');setTimeout(()=>{t.remove();busy=false},400)},2600)}
+ let clicks=0,ct=0;
+ document.addEventListener('click',e=>{const w=e.target.closest&&e.target.closest('#hg');if(!w)return;clearTimeout(ct);clicks++;ct=setTimeout(()=>clicks=0,1600);if(clicks>=5){clicks=0;const r=w.getBoundingClientRect();wepa(r.left+r.width/2,r.top+r.height/2)}});
+ let typed='';addEventListener('keydown',e=>{const el=e.target;if(el&&(el.isContentEditable||/^(INPUT|TEXTAREA|SELECT)$/.test(el.tagName))||e.metaKey||e.ctrlKey||e.altKey||e.key.length!==1)return;typed=(typed+e.key.toLowerCase()).slice(-4);if(typed==='wepa'){typed='';wepa(innerWidth/2,innerHeight*.4)}});
+})();
 /* videos only load and play while they are on screen (and never autoplay for people who prefer reduced motion) */
 (function(){const rm=matchMedia('(prefers-reduced-motion: reduce)');
 const io='IntersectionObserver' in window?new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting){v.preload='auto';const p=v.play();p&&p.catch&&p.catch(()=>{})}else v.pause()}),{rootMargin:'200px 0px'}):null;
