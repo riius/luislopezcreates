@@ -22,6 +22,42 @@ async function isAdmin(request, env) {
   return crypto.subtle.timingSafeEqual ? crypto.subtle.timingSafeEqual(a, b) : got === want;
 }
 
+
+// ---- per-page titles/descriptions, so shared links and search results show the right page ----
+const SITE_URL = 'https://luislopezcreates.com';
+const PAGES = {
+  '/motion': ['Motion | Luis Lopez', 'Animated emails, ads and character animation by Luis Lopez, including a Vitacost Earth Day animation that reached 15 million views.'],
+  '/about': ['About and resume | Luis Lopez', 'Digital designer and motion designer with 10+ years in email, paid media, landing pages and animation. Resume, skills and tools.'],
+  '/work/parkway-orlando': ['Parkway Orlando | Luis Lopez', 'A landing-page system that helps owners move their ownership to a nearby sister resort, built for Vacatia across three resorts.'],
+  '/work/synergy-labs': ['Synergy Labs | Luis Lopez', 'Instagram carousels for Smart Vitality, a line of vet-formulated soft chew supplements for dogs, designed in Figma in two creative directions.'],
+  '/work/conviva-care-center': ['Conviva Care Center | Luis Lopez', 'Bilingual paid media banners in five standard sizes for Conviva Care Centers, designed in Figma and animated with GSAP.'],
+  '/work/vacatia': ['Vacatia email design system | Luis Lopez', 'A reusable, responsive email design system that keeps every Vacatia campaign on brand and faster to build.'],
+  '/work/owner-invitation': ['Owner Invitation | Luis Lopez', 'An invitation email for Vacatia Live, a VIP owner thank-you evening, with a 4.2% open rate and about 1,800 owner sign-ups.'],
+  '/work/vacatia-cookbook': ['Vacatia Cookbook | Luis Lopez', 'A retractable print banner that turns a passing glance into a QR scan, inviting owners and guests to share their recipes.'],
+};
+const esc = (t) => String(t).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
+const attr = (name, value) => ({ element: (e) => e.setAttribute(name, value) });
+
+async function servePage(request, env, url, path) {
+  const [title, desc] = PAGES[path];
+  const res = await env.ASSETS.fetch(new Request(new URL('/', url), { method: 'GET', headers: request.headers }));
+  const pageUrl = SITE_URL + path;
+  const out = new HTMLRewriter()
+    .on('title', { element: (e) => e.setInnerContent(title) })
+    .on('meta[name="description"]', attr('content', desc))
+    .on('meta[property="og:title"]', attr('content', title))
+    .on('meta[property="og:description"]', attr('content', desc))
+    .on('meta[property="og:url"]', attr('content', pageUrl))
+    .on('meta[name="twitter:title"]', attr('content', title))
+    .on('meta[name="twitter:description"]', attr('content', desc))
+    .on('link[rel="canonical"]', attr('href', pageUrl))
+    .transform(res);
+  const headers = new Headers(out.headers);
+  headers.set('content-type', 'text/html; charset=utf-8');
+  headers.set('cache-control', 'public, max-age=0, must-revalidate');
+  return new Response(request.method === 'HEAD' ? null : out.body, { status: 200, headers });
+}
+
 export default {
   async fetch(request, env) {
     const url = new URL(request.url);
@@ -80,6 +116,16 @@ export default {
         status = 206;
       }
       return new Response(request.method === 'HEAD' ? null : obj.body, { status, headers });
+    }
+
+    // ---- clean page URLs (/work/x, /motion, /about): serve the site with that page's own title and description ----
+    if (request.method === 'GET' || request.method === 'HEAD') {
+      const clean = path.replace(/\/+$/, '');
+      if (PAGES[clean]) return servePage(request, env, url, clean);
+      if (clean.startsWith('/work/')) {
+        const res = await env.ASSETS.fetch(new Request(new URL('/', url), { method: 'GET', headers: request.headers }));
+        return new Response(request.method === 'HEAD' ? null : res.body, { status: 404, headers: res.headers });
+      }
     }
 
     return env.ASSETS.fetch(request);

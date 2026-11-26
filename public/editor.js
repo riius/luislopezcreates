@@ -121,6 +121,11 @@ function hideUI(){const cfg=window.SITE_CONFIG||{};if((cfg.hideEditor||UI.hide)&
 async function boot(){let server=null;
  if(typeof fetch==='function'&&location.protocol!=='file:'){for(const u of ['/api/site-data','site-data.json']){try{const ac=new AbortController(),t=setTimeout(()=>ac.abort(),3000),r=await fetch(u,{cache:'no-store',signal:ac.signal});clearTimeout(t);if(r.ok){const j=await r.json();if(j&&Object.keys(j).length>1){server=j;break}}}catch(e){}}}
  [baked,server,draft].forEach(d=>d&&applyData(fix(d)));
- refresh();route();hideUI();document.body.classList.add('ready')}
+  /* keep the years claim identical everywhere ("10+ years"), even if older saved edits say something else */
+  const YR=/\b(?:over\s+)?\d{2}\+?\s+years\b/gi,yfix=v=>typeof v==='string'?(v.length>20000||v.slice(0,5)==='data:'?v:v.replace(YR,'10+ years')):Array.isArray(v)?v.map(yfix):v&&typeof v==='object'?(Object.keys(v).forEach(k=>{v[k]=yfix(v[k])}),v):v;
+  [HERO,ABOUT,RESUME,DO,works].forEach(yfix);
+  /* on the public site the resume file and contact list always come from the published version */
+  const cfgp=window.SITE_CONFIG;if(cfgp&&cfgp.hideEditor&&!/[?&#]edit/.test(location.search+location.hash)){RESUME.file=DEFS.resume.file;RESUME.contact=DEFS.resume.contact}
+  refresh();route();hideUI();document.body.classList.add('ready')}
 boot();
 })();

@@ -12,6 +12,8 @@ workers_dev = true
 [assets]
 directory = "./public"
 binding = "ASSETS"
+# Run the Worker first for the page URLs, so each one gets its own title and description.
+run_worker_first = ["/work/*", "/motion", "/motion/", "/about", "/about/"]
 
 # Stores the edits you publish from the site's editor.
 [[kv_namespaces]]
