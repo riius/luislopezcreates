@@ -201,10 +201,19 @@ route();
  g.addEventListener('animationend',()=>g.classList.remove('pop'))})})();
 
 ;(function(){const n=document.querySelector('nav');if(!n)return;const f=()=>n.classList.toggle('navbg',(window.scrollY||document.documentElement.scrollTop)>8);addEventListener('scroll',f,{passive:true});f()})();
-;(function(){const g=document.createElement('div');g.id='glow';g.setAttribute('aria-hidden','true');document.body.appendChild(g);const rm=matchMedia('(prefers-reduced-motion:reduce)').matches;let tx=innerWidth*.28,ty=innerHeight*.3,x=tx,y=ty,run=false;const put=()=>{g.style.transform='translate3d('+x+'px,'+y+'px,0)'};put();g.classList.add('on');
-const mv=e=>{const p=e.touches?e.touches[0]:e;tx=p.clientX;ty=p.clientY;if(rm){x=tx;y=ty;put()}else if(!run){run=true;requestAnimationFrame(tick)}};
-function tick(){x+=(tx-x)*.12;y+=(ty-y)*.12;put();if(Math.abs(tx-x)+Math.abs(ty-y)>.4)requestAnimationFrame(tick);else run=false}
-addEventListener('pointermove',mv,{passive:true});addEventListener('touchstart',mv,{passive:true});addEventListener('touchmove',mv,{passive:true});document.addEventListener('mouseleave',()=>g.classList.remove('on'));document.addEventListener('mouseenter',()=>g.classList.add('on'))})();
+
+;(function(){const d=document.createElement('div');d.id='mini';d.setAttribute('role','img');d.setAttribute('aria-label','Friendly Luis mascot');
+d.innerHTML='<span class="say"></span><svg viewBox="0 0 116 110" xmlns="http://www.w3.org/2000/svg"><g class="arm"><path d="M86 76q16-4 18-22" stroke="#a0a0cf" stroke-width="10" stroke-linecap="round" fill="none"/><circle cx="104" cy="52" r="7" fill="#a0a0cf"/></g><path d="M50 14C74 14 90 34 90 62C90 86 74 100 50 100C26 100 10 86 10 62C10 34 26 14 50 14Z" fill="#a0a0cf"/><path d="M19 56C16 20 84 20 81 56" stroke="#3ddcb4" stroke-width="5" fill="none" stroke-linecap="round"/><rect x="10" y="50" width="11" height="22" rx="5.5" fill="#3ddcb4"/><rect x="79" y="50" width="11" height="22" rx="5.5" fill="#3ddcb4"/><g class="eye"><circle cx="38" cy="60" r="9" fill="#fff"/><circle class="pp" cx="38" cy="60" r="4.5" fill="#22292c"/></g><g class="eye"><circle cx="62" cy="60" r="9" fill="#fff"/><circle class="pp" cx="62" cy="60" r="4.5" fill="#22292c"/></g><path d="M40 79Q50 89 60 79" stroke="#22292c" stroke-width="3.5" fill="none" stroke-linecap="round"/><circle cx="29" cy="76" r="4" fill="#3ddcb4" opacity=".35"/><circle cx="71" cy="76" r="4" fill="#3ddcb4" opacity=".35"/></svg>';
+document.body.appendChild(d);const say=d.querySelector('.say'),pp=[...d.querySelectorAll('.pp')],O=[[38,60],[62,60]];let tt,wt;
+const talk=t=>{say.textContent=t;d.classList.add('talk');clearTimeout(tt);tt=setTimeout(()=>d.classList.remove('talk'),2200)};
+const wave=()=>{d.classList.remove('wave');void d.offsetWidth;d.classList.add('wave')};
+const msgs=['¡Wepa!','Let\'s make something fun','Scroll for my work ↓','Need a designer? Say hi.'];let mi=0;
+d.addEventListener('click',()=>{d.classList.remove('hop');void d.offsetWidth;d.classList.add('hop');wave();talk(msgs[mi++%msgs.length])});
+const look=e=>{const p=e.touches?e.touches[0]:e,r=d.getBoundingClientRect(),cx=r.left+r.width*.45,cy=r.top+r.height*.55,dx=p.clientX-cx,dy=p.clientY-cy,m=Math.hypot(dx,dy)||1,k=Math.min(3.6,m/60);pp.forEach((c,i)=>{c.setAttribute('cx',O[i][0]+dx/m*k);c.setAttribute('cy',O[i][1]+dy/m*k)})};
+addEventListener('pointermove',look,{passive:true});addEventListener('touchmove',look,{passive:true});
+setTimeout(()=>{wave();talk('¡Wepa!')},1700);
+document.addEventListener('mouseover',e=>{const h=e.target.closest&&e.target.closest('.hero h1');if(h&&!h._m){h._m=1;wave();talk('¡Wepa!');setTimeout(()=>h._m=0,3000)}});
+let last=0;addEventListener('scroll',()=>{const y=scrollY;if(Math.abs(y-last)>900){last=y;wave()}},{passive:true})})();
 
 
 /* wave engine: one continuous phase per word, so the loop never skips; hovering eases speed and height to a slow stop */
