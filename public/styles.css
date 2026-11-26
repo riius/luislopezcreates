@@ -377,4 +377,4 @@ footer{padding-top:var(--sec)}
 html[data-theme="light"] :focus-visible{outline-color:#0a705a}
 .skip{position:fixed;left:12px;top:-60px;z-index:100;padding:.7em 1.1em;border-radius:999px;background:var(--accent);color:var(--accent-text);font:700 14px var(--font);text-decoration:none;transition:top .2s}
 .skip:focus{top:12px}
-.live-pop:focus-visible{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}
+.live-pop:focus-visible{opacity:1;pointer-events:auto;transform:translate(-50%,-50%) scale(1)}html[data-theme="light"] :is(.hero .btn:hover,.hero .btn.p:hover,.hero a.btn[data-open-form]:hover,.cta .row a.btn[data-open-form]:hover,.cta .row .btn:not(.bk):hover){color:#fff}
