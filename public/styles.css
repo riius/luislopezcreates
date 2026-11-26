@@ -229,7 +229,7 @@ h1,h2{color:var(--head);font-family:'Bricolage Grotesque',var(--font);font-weigh
 .live-pop:hover{background:var(--purple)}
 #mini{position:absolute;left:24px;top:84px;width:104px;z-index:40;cursor:pointer;-webkit-tap-highlight-color:transparent;user-select:none;animation:miniIn .7s cubic-bezier(.34,1.56,.64,1) .8s both}
 #mini svg{display:block;width:100%;height:auto;overflow:visible;animation:miniBob 3.6s ease-in-out infinite}
-#mini .arm{transform-origin:98px 118px}.no-topo #mini{display:none}
+#mini .arm{transform-origin:100px 132px}.no-topo #mini{display:none}
 #mini.wave .arm{animation:miniWave .55s ease-in-out 4}
 #mini.hop svg{animation:miniHop .5s cubic-bezier(.3,1.6,.5,1)}
 #mini .eye{transform-box:fill-box;transform-origin:center;animation:miniBlink 5s infinite}
