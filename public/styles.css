@@ -362,3 +362,13 @@ nav.open .links{opacity:1;visibility:visible;transform:none}
 .links a{padding:8px 0;font-size:22px;font-weight:600}
 }
 @media(max-width:820px){.hero{padding-bottom:64px}.hero .row{gap:12px}.grid,.do{grid-template-columns:1fr}.card.wide{grid-column:auto}.card.wide .ph{aspect-ratio:16/10}.quote{padding:32px}}
+
+/* even vertical rhythm between home sections */
+:root{--sec:96px}
+@media(max-width:820px){:root{--sec:56px}}
+.hero{padding-bottom:var(--sec)}
+.do{margin-bottom:0}
+.quote{margin-bottom:var(--sec)}
+.cta{padding-top:var(--sec);padding-bottom:0;margin-bottom:0}
+footer{padding-top:var(--sec)}
+.more{margin-bottom:var(--sec)}
