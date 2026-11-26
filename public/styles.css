@@ -372,3 +372,4 @@ nav.open .links{opacity:1;visibility:visible;transform:none}
 .cta{padding-top:var(--sec);padding-bottom:0;margin-bottom:0}
 footer{padding-top:var(--sec)}
 .more{margin-bottom:var(--sec)}
+.pc .cap a{color:var(--accent);text-decoration:underline;text-underline-offset:3px;white-space:nowrap}.pc .cap a:hover{color:var(--purple)}
