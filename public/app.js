@@ -203,6 +203,8 @@ route();
 ;(function(){const n=document.querySelector('nav');if(!n)return;const f=()=>n.classList.toggle('navbg',(window.scrollY||document.documentElement.scrollTop)>8);addEventListener('scroll',f,{passive:true});f()})();
 
 
+;(function(){const root=document.documentElement,b=document.getElementById('themeSw');if(!b)return;const set=(dark,save)=>{if(dark)root.removeAttribute('data-theme');else root.setAttribute('data-theme','light');b.setAttribute('aria-checked',dark?'true':'false');b.setAttribute('aria-label',dark?'Dark mode':'Light mode');if(save){try{localStorage.setItem('luis-mode',dark?'dark':'light')}catch(e){}}};set(root.getAttribute('data-theme')!=='light',false);b.addEventListener('click',()=>set(b.getAttribute('aria-checked')!=='true',true))})();
+
 
 /* wave engine: one continuous phase per word, so the loop never skips; hovering eases speed and height to a slow stop */
 ;(function(){
